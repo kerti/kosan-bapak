@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Text, TextInput, View } from "react-native";
-import Styles from "../styles";
+import { ConfigContext } from "../contexts/ConfigContext";
+import Styles from "../Styles";
 
 const Room = (props) => {
   const [kwh, setKwh] = useState("");
@@ -18,12 +19,16 @@ const Room = (props) => {
 };
 
 const RoomList = (props) => {
+  const { layout } = useContext(ConfigContext);
+  const flObj = layout.find((floor) => {
+    return floor.floorNum === props.floor;
+  });
   return (
     <>
-      <Text style={Styles.sectionHeader}>Lantai {props.floor}</Text>
-      <Room name="1" />
-      <Room name="2" />
-      <Room name="3" />
+      <Text style={Styles.sectionHeader}>Lantai {flObj.floorNum}</Text>
+      {flObj.rooms.map((fl) => {
+        return <Room key={fl.name} name={fl.name} />;
+      })}
     </>
   );
 };
