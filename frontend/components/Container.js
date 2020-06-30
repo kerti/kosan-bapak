@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import Styles from "../styles";
+import Styles from "../Styles";
 import Config from "./Config";
 import Controls from "./Controls";
 import RoomList from "./Rooms";
