@@ -4,15 +4,26 @@ import { ConfigContext } from "../contexts/ConfigContext";
 import Styles from "../Styles";
 
 const Room = (props) => {
-  const [kwh, setKwh] = useState("");
+  const { layout, updateKwh } = useContext(ConfigContext);
+  const flObj = layout.find((floor) => {
+    return floor.floorNum === props.floor;
+  });
+  const roomObj = flObj.rooms.find((room) => {
+    return room.name === props.name;
+  });
+  let initKwh = roomObj.kwh;
+  const [kwh, setKwh] = useState(initKwh);
   return (
     <View style={Styles.dataRow}>
       <Text style={Styles.dataRowLabel}>Kamar {props.name}</Text>
       <TextInput
         style={Styles.dataRowInput}
         placeholder="Masukkan kWH"
-        onChangeText={(kwh) => setKwh(kwh)}
-        defaultValue={kwh}
+        value={kwh}
+        onChangeText={(kwh) => {
+          setKwh(kwh);
+          updateKwh(props.floor, props.name, kwh);
+        }}
       />
     </View>
   );
@@ -26,8 +37,8 @@ const RoomList = (props) => {
   return (
     <>
       <Text style={Styles.sectionHeader}>Lantai {flObj.floorNum}</Text>
-      {flObj.rooms.map((fl) => {
-        return <Room key={fl.name} name={fl.name} />;
+      {flObj.rooms.map((room) => {
+        return <Room floor={flObj.floorNum} key={room.name} name={room.name} />;
       })}
     </>
   );

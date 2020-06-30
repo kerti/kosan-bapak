@@ -3,6 +3,7 @@ import { SafeAreaView, ScrollView } from "react-native";
 import Styles from "../Styles";
 import Config from "./Config";
 import Controls from "./Controls";
+import ResultList from "./Results";
 import RoomList from "./Rooms";
 import { ConfigContext } from "../contexts/ConfigContext";
 
@@ -16,6 +17,9 @@ const Container = () => {
         })}
         <Config />
         <Controls />
+        {layout.map((floor) => {
+          return <ResultList key={floor.floorNum} floor={floor.floorNum} />;
+        })}
       </ScrollView>
     </SafeAreaView>
   );
