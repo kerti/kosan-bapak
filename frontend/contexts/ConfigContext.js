@@ -26,12 +26,10 @@ const ConfigContextProvider = (props) => {
       },
     ],
   });
-  const incrementPrice = () => {
-    const oldPrice = parseInt(config.pricePerKwh);
-    const newPrice = oldPrice + 1;
-    setConfig({ ...config, pricePerKwh: newPrice.toString() });
+  const setPricePerKwh = (newPrice) => {
+    setConfig({ ...config, pricePerKwh: newPrice });
   };
-  const updateKwh = (floorNum, roomName, kwh) => {
+  const setRoomKwh = (floorNum, roomName, kwh) => {
     let floors = [...config.layout];
     const floorIndex = floors.findIndex((fl) => {
       return fl.floorNum === floorNum;
@@ -61,7 +59,7 @@ const ConfigContextProvider = (props) => {
   };
   return (
     <ConfigContext.Provider
-      value={{ ...config, incrementPrice, updateKwh, calculateBills }}
+      value={{ ...config, setPricePerKwh, setRoomKwh, calculateBills }}
     >
       {props.children}
     </ConfigContext.Provider>

@@ -4,7 +4,7 @@ import { ConfigContext } from "../contexts/ConfigContext";
 import Styles from "../Styles";
 
 const Room = (props) => {
-  const { layout, updateKwh } = useContext(ConfigContext);
+  const { layout, setRoomKwh } = useContext(ConfigContext);
   const flObj = layout.find((floor) => {
     return floor.floorNum === props.floor;
   });
@@ -22,7 +22,7 @@ const Room = (props) => {
         value={kwh}
         onChangeText={(kwh) => {
           setKwh(kwh);
-          updateKwh(props.floor, props.name, kwh);
+          setRoomKwh(props.floor, props.name, kwh);
         }}
       />
     </View>

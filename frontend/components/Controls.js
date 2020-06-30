@@ -5,12 +5,7 @@ import Button from "./Button";
 import { ConfigContext } from "../contexts/ConfigContext";
 
 const Controls = () => {
-  const { pricePerKwh, incrementPrice, calculateBills } = useContext(
-    ConfigContext
-  );
-  const sayPrice = () => {
-    alert(pricePerKwh);
-  };
+  const { calculateBills } = useContext(ConfigContext);
   return (
     <ConfigContext.Provider>
       <View style={Styles.controls}>
@@ -21,15 +16,10 @@ const Controls = () => {
         />
         <Button
           text="Ulang"
-          style={Styles.buttonPrimary}
+          style={Styles.buttonReset}
           onPress={() => {
             alert("Ulang coy!");
           }}
-        />
-        <Button
-          text="Tambah Harga"
-          style={Styles.buttonReset}
-          onPress={incrementPrice}
         />
       </View>
     </ConfigContext.Provider>
