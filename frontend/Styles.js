@@ -17,7 +17,7 @@ const Styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
   },
   dataRow: {
@@ -28,7 +28,7 @@ const Styles = StyleSheet.create({
   dataRowLabel: {
     backgroundColor: "lightgrey",
     flex: 1,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     padding: 10,
   },
@@ -41,7 +41,7 @@ const Styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     flex: 2,
-    fontSize: 18,
+    fontSize: 16,
     padding: 5,
   },
   container: {
@@ -58,7 +58,7 @@ const Styles = StyleSheet.create({
   sectionHeader: {
     backgroundColor: "maroon",
     color: "white",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     padding: 7,
   },
