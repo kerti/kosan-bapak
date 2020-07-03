@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useCallback } from "react";
 
 export const ConfigContext = createContext();
 
@@ -25,38 +25,56 @@ const ConfigContextProvider = (props) => {
         ],
       },
     ],
+    totalBilled: "2000000",
   });
-  const setPricePerKwh = (newPrice) => {
-    setConfig({ ...config, pricePerKwh: newPrice });
-  };
-  const setRoomKwh = (floorNum, roomName, kwh) => {
-    let floors = [...config.layout];
-    const floorIndex = floors.findIndex((fl) => {
-      return fl.floorNum === floorNum;
-    });
-    let floor = { ...floors[floorIndex] };
-    const roomIndex = floor.rooms.findIndex((room) => {
-      return room.name === roomName;
-    });
-    let room = { ...floor.rooms[roomIndex] };
-    room.kwh = kwh;
-    floor.rooms[roomIndex] = room;
-    floors[floorIndex] = floor;
-    setConfig({ ...config, layout: floors });
-  };
-  const calculateBills = () => {
-    let floors = [...config.layout];
-    for (var i = 0; i < floors.length; i++) {
-      let floor = floors[i];
-      for (var j = 0; j < floor.rooms.length; j++) {
-        let room = floor.rooms[j];
-        room.bill = parseInt(config.pricePerKwh) * parseFloat(room.kwh);
-        floor.rooms[j] = room;
+
+  const setPricePerKwh = useCallback(
+    (newPrice) => {
+      setConfig((prevConfig) => ({
+        ...prevConfig,
+        pricePerKwh: newPrice,
+      }));
+    },
+    [setConfig]
+  );
+
+  const setRoomKwh = useCallback(
+    (floorNum, roomName, kwh) => {
+      setConfig((prevConfig) => {
+        let floors = [...prevConfig.layout];
+        const floorIndex = floors.findIndex((fl) => {
+          return fl.floorNum === floorNum;
+        });
+        let floor = { ...floors[floorIndex] };
+        const roomIndex = floor.rooms.findIndex((room) => {
+          return room.name === roomName;
+        });
+        let room = { ...floor.rooms[roomIndex] };
+        room.kwh = kwh;
+        floor.rooms[roomIndex] = room;
+        floors[floorIndex] = floor;
+        return { ...prevConfig, layout: floors };
+      });
+    },
+    [setConfig]
+  );
+
+  const calculateBills = useCallback(() => {
+    setConfig((prevConfig) => {
+      let floors = [...prevConfig.layout];
+      for (let i = 0; i < floors.length; i++) {
+        let floor = floors[i];
+        for (let j = 0; j < floor.rooms.length; j++) {
+          let room = floor.rooms[j];
+          room.bill = parseInt(prevConfig.pricePerKwh) * parseFloat(room.kwh);
+          floor.rooms[j] = room;
+        }
+        floors[i] = floor;
       }
-      floors[i] = floor;
-    }
-    setConfig({ ...config, layout: floors });
-  };
+      return { ...prevConfig, layout: floors };
+    });
+  }, [setConfig]);
+
   return (
     <ConfigContext.Provider
       value={{ ...config, setPricePerKwh, setRoomKwh, calculateBills }}
