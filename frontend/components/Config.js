@@ -6,7 +6,7 @@ import Styles from "../Styles";
 const Config = () => {
   const { pricePerKwh, setPricePerKwh } = useContext(ConfigContext);
   return (
-    <ConfigContext.Provider>
+    <>
       <Text style={Styles.sectionHeader}>Setelan</Text>
       <ConfigItem
         name="Harga per kWH"
@@ -14,7 +14,7 @@ const Config = () => {
         initValue={pricePerKwh}
         onChangeText={setPricePerKwh}
       />
-    </ConfigContext.Provider>
+    </>
   );
 };
 
